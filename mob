@@ -1,0 +1,590 @@
+##flutter hello world
+import 'package:flutter/material.dart';
+void main() => runApp(MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Hello World App')),
+        body: const Center(child: Text('Hello World')),
+      ),
+    ));
+
+
+
+
+
+
+
+
+
+
+
+##flutter row and column 
+import 'package:flutter/material.dart';
+void main() => runApp(MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Row and Column Example')),
+        body: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Item 1'),
+                Text('Item 2'),
+              ],
+            ),
+            SizedBox(height: 20), // Adds space between Row and Column
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Item 3'),
+                Text('Item 4'),
+              ],
+            ),
+          ],
+        ),
+));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##shared preference
+package com.example.shared_preference;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+    private EditText name, age;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize EditText fields
+        name = findViewById(R.id.edit1);
+        age = findViewById(R.id.edit2);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Retrieve saved data from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        name.setText(sharedPreferences.getString("name", ""));  // Retrieve name
+        age.setText(String.valueOf(sharedPreferences.getInt("age", 0)));  // Retrieve age
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Save data to SharedPreferences
+        SharedPreferences.Editor editor = getSharedPreferences("MySharedPref", MODE_PRIVATE).edit();
+        editor.putString("name", name.getText().toString());  // Save name
+        editor.putInt("age", age.getText().toString().isEmpty() ? 0 : Integer.parseInt(age.getText().toString()));  // Save age
+        editor.apply();  // Apply changes
+    }
+}
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<TextView
+    android:id="@+id/textview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="32dp"
+    android:text="Shared Preferences Demo"
+    android:textColor="@android:color/black"
+    android:textSize="24sp" />
+
+<EditText
+    android:id="@+id/edit1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/textview"
+    android:layout_margin="16dp"
+    android:hint="Enter your Name"
+    android:padding="10dp" />
+
+<EditText
+    android:id="@+id/edit2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/edit1"
+    android:layout_margin="16dp"
+    android:hint="Enter your Age"
+    android:inputType="number"
+    android:padding="10dp" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="685dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="574dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Name" />
+
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##shared preference
+package com.example.listview;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ListView listView = findViewById(R.id.listview);
+
+        List<String> list = new ArrayList<>();
+        list.add("Apple");
+        list.add("Orange");
+        list.add("Banana");
+        list.add("Grapes");
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1,list);
+        listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    //clicked apple
+                    startActivity(new Intent(MainActivity.this, AppleActivity.class));
+                }
+                else if(position==1){
+                    //clicked orange
+                    startActivity(new Intent(MainActivity.this, OrangeActivity.class));
+                }
+                else if(position==2){
+                    //clicked banana
+                    startActivity(new Intent(MainActivity.this, BananaActivity.class));
+                }
+                else{
+                    //clicked grapes
+                    startActivity(new Intent(MainActivity.this, GrapesActivity.class));
+                }
+            }
+        });
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##activity calling another activity
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/click"
+        tools:layout_editor_absoluteX="92dp"
+        tools:layout_editor_absoluteY="322dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+package com.example.app1;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        *Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(intent);
+            }
+        });*
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#date ans time
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selected Date"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/pickDateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick Date"
+        app:layout_constraintTop_toBottomOf="@id/dateTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+//date
+package com.example.program1; // Replace with your actual package name
+
+import android.app.DatePickerDialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import java.util.Calendar;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main); // Set the layout
+
+        // Find the TextView and Button by their IDs
+        TextView dateTextView = findViewById(R.id.dateTextView);
+        Button pickDateButton = findViewById(R.id.pickDateButton);
+
+        // Set an OnClickListener on the button
+        pickDateButton.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance(); // Get the current date
+            new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+                // Format and display the selected date
+                dateTextView.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+        });
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##toast message 
+Button button = findViewById(R.id.button);
+
+        // Set an OnClickListener to the button to show a toast message
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Show a toast message
+                Toast.makeText(MainActivity.this, "Button clicked!", Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+
+
+
+
+
+
+##login form
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".MainActivity">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_email"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            app:boxBackgroundColor="@color/white"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_username"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            app:boxBackgroundColor="@color/white"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_password"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            app:boxBackgroundColor="@color/white"
+            app:errorEnabled="true"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="confirmInput"
+            android:text="Confirm" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>package com.example.loginvalidation;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.util.Patterns;
+import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.regex.Pattern;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile(
+            "^" +
+                    "(?=.*[0-9])" +
+                    "(?=.*[a-z])" +
+                    "(?=.*[A-Z])" +
+                    //"(?=.*[a-zA-Z])" +
+                    "(?=.*[@#$%^&+=])" +
+                    "(?=\\S+$)" +
+                    ".{6,}" +
+                    "$");
+
+    private TextInputLayout textInputEmail;
+    private TextInputLayout textInputUsername;
+    private TextInputLayout textInputPassword;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        textInputEmail = findViewById(R.id.text_input_email);
+        textInputUsername = findViewById(R.id.text_input_username);
+        textInputPassword = findViewById(R.id.text_input_password);
+
+    }
+
+    private boolean validateEmail(){
+        String emailInput = textInputEmail.getEditText().getText().toString().trim();
+        if(emailInput.isEmpty()){
+            textInputEmail.setError("Empty Field");
+            return false;
+        }
+        else if(!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()){
+            textInputEmail.setError("Invalid Email");
+            return false;
+        }
+        else{
+            textInputEmail.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateUsername(){
+        String usernameInput = textInputUsername.getEditText().getText().toString().trim();
+
+        if(usernameInput.isEmpty()){
+            textInputUsername.setError("Empty Field");
+            return false;
+        }
+        else if(usernameInput.length()>15){
+            textInputUsername.setError("Too Long");
+            return false;
+        }
+        else{
+            textInputUsername.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validatePassword(){
+        String passwordInput = textInputPassword.getEditText().getText().toString().trim();
+        if(passwordInput.isEmpty()){
+            textInputPassword.setError("Empty Field");
+            return false;
+        }
+        else if(!PASSWORD_PATTERN.matcher(passwordInput).matches()){
+            textInputPassword.setError("Invalid Password");
+            return false;
+        }
+        else{
+            textInputPassword.setError(null);
+            return true;
+        }
+    }
+
+    public void confirmInput(View v){
+        if(!validateEmail() | !validateUsername() | !validatePassword()){
+            return;
+        }
+
+        String input = "Email: "+textInputEmail.getEditText().getText().toString();
+        input += "\n";
+        input += "Username: "+textInputUsername.getEditText().getText().toString();
+        input += "\n";
+        input += "Password: "+textInputPassword.getEditText().getText().toString();
+
+        Toast.makeText(this,input,Toast.LENGTH_SHORT).show();
+    }
+}
+
+
